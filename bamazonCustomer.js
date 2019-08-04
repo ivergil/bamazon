@@ -32,17 +32,49 @@ function initBamazon() {
 
 function buyProducts() {
     inquirer
-        .prompt({
-            name: "buy",
-            type: "input",
-            message: "What is the item you would like to Buy?:  ",
-        })
+        .prompt([
+            {
+                name: "item",
+                type: "input",
+                message: "What is the item you would like to Buy?:  "
+            },
+            {
+                name: "qty",
+                type: "input",
+                message: "How many items you would like to Buy?:  "
+            },
+        ])
         .then(function (ans) {
             // based on their answer, either call the bid or the post functions
-            connection.query("SELECT * FROM products", function (err, res) {
+            connection.query("SELECT * FROM products", function (err, resDB) {
                 if (err) throw err;
-                var i = --ans.buy
-                console.log(res[ans.buy].stock_quantity);
+                var i = ans.item - 1;
+                // console.log(res[i].product_name);
+                if (ans.qty <= resDB[i].stock_quantity) {
+                    var newQ = (resDB[i].stock_quantity - ans.qty);
+
+                    // console.log(newQ);
+                    connection.query(
+                        "UPDATE products SET ? WHERE ?",
+                        [
+                            {
+                                stock_quantity: newQ
+                            },
+                            {
+                                item_id: ans.item
+                            }
+                        ],
+                        function (error) {
+                            if (error) throw err;
+                            console.log("Order placed successfully!");
+                            console.log("There are only " + newQ + " " + resDB[i].product_name + " availables")
+                        }
+                    );
+                    // console.log("Compra realizada !!!");
+                } else {
+                    console.log("No hay stock suficiente");
+                }
+
             });
         });
 }

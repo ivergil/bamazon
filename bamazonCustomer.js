@@ -67,12 +67,17 @@ function buyProducts() {
                         function (error) {
                             if (error) throw err;
                             console.log("Order placed successfully!");
-                            console.log("There are only " + newQ + " " + resDB[i].product_name + " availables")
+                            var total = (ans.qty * resDB[i].price);
+                            console.log("And your Total is: $" + total);
+                            connection.end();
+                            // console.log("There are only " + newQ + " " + resDB[i].product_name + " availables")
                         }
                     );
                     // console.log("Compra realizada !!!");
                 } else {
-                    console.log("No hay stock suficiente");
+                    console.log("Insufficient quantity!");
+                    console.log("Your order has been cancelled!!!")
+                    connection.end();
                 }
 
             });

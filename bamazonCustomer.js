@@ -13,12 +13,12 @@ var connection = mysql.createConnection({
 // connect to the mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
-    // run the start function after the connection is made to prompt the user
+    // run the initBamazon function after the connection is made
     initBamazon();
 });
 
 function initBamazon() {
-    console.log("connected as id " + connection.threadId + "\n");
+    // console.log("connected as id " + connection.threadId + "\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
 
@@ -28,14 +28,21 @@ function initBamazon() {
         console.log("-----------------------------------");
         buyProducts();
     });
-    
 };
 
-function buyProducts(){
+function buyProducts() {
     inquirer
-    .prompt({
-      name: "buy",
-      type: "input",
-      message: "What is the item you would like to Buy?:  ",
-    })
+        .prompt({
+            name: "buy",
+            type: "input",
+            message: "What is the item you would like to Buy?:  ",
+        })
+        .then(function (ans) {
+            // based on their answer, either call the bid or the post functions
+            connection.query("SELECT * FROM products", function (err, res) {
+                if (err) throw err;
+                var i = --ans.buy
+                console.log(res[ans.buy].stock_quantity);
+            });
+        });
 }

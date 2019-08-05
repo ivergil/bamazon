@@ -30,20 +30,22 @@ function initManager() {
             switch (choosen.managerTask) {
                 case "View Products for Sale":
                     viewProducts();
-                    // initManager();
                     connection.end();
                     break;
 
                 case "View Low Inventory":
                     viewLowInventory();
+                    connection.end();
                     break;
 
                 case "Add to Inventory":
                     addInventory();
+                    connection.end();
                     break;
 
                 case "Add New Product":
                     addNewProduct();
+                    connection.end();
                     break;
                 default: connection.end();
             }
@@ -60,7 +62,7 @@ function viewProducts() {
 
         for (var i = 0; i < res.length; i++) {
             table.push(
-                [res[i].item_id,res[i].product_name,res[i].department_name,res[i].stock_quantity,res[i].price]
+                [res[i].item_id, res[i].product_name, res[i].department_name, res[i].stock_quantity, res[i].price]
             )
             // console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].stock_quantity + " | " + res[i].price);
         }
@@ -73,9 +75,22 @@ function viewProducts() {
 }
 
 function viewLowInventory() {
+    var table = new Table({
+        head: ["ID", "Product Name", "Departament", "Stock", "Price $",]
+        , colWidths: [5, 20, 20, 10, 10]
+    });
+    connection.query("SELECT * FROM products WHERE stock_quantity < 5", function (err, res) {
+        if (err) throw err;
 
-    console.table(values);
-    console.log("entro por ver inventario bajo")
+        for (var i = 0; i < res.length; i++) {
+            table.push(
+                [res[i].item_id, res[i].product_name, res[i].department_name, res[i].stock_quantity, res[i].price]
+            )
+            // console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].stock_quantity + " | " + res[i].price);
+        }
+        // console.log("-----------------------------------");
+        console.log(table.toString());
+    });
 }
 
 function addInventory() {

@@ -79,9 +79,7 @@ function viewLowInventory() {
             table.push(
                 [res[i].item_id, res[i].product_name, res[i].department_name, res[i].stock_quantity, res[i].price]
             )
-            // console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].stock_quantity + " | " + res[i].price);
         }
-        // console.log("-----------------------------------");
         console.log(table.toString());
         initManager();
     });
@@ -138,7 +136,6 @@ function addInventory() {
                 })
             })
     });
-
 };
 
 function addNewProduct() {
@@ -178,10 +175,6 @@ function addNewProduct() {
             },
         ])
         .then(function (ans) {
-            // connection.query("SELECT * FROM products", function (err, resDB) {
-            // var i = ans.item - 1;
-            // var newQ = parseInt(ans.qty) + parseInt(resDB[i].stock_quantity);
-            // console.log(newQ);
             connection.query("INSERT INTO products SET ?",
                 [
                     {
@@ -194,9 +187,7 @@ function addNewProduct() {
                 function (error) {
                     if (error) throw err;
                     console.log("Add new Product successfully!");
-                    // console.log("The new Inventory for " + resDB[i].product_name + " has been updated from " + resDB[i].stock_quantity + " to " + newQ);
                 }
             );
-            // })
         })
 };

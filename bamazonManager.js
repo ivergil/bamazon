@@ -132,15 +132,71 @@ function addInventory() {
                         function (error) {
                             if (error) throw err;
                             console.log("Add new Stock successfully!");
-                            console.log("The new Inventory for " + resDB[i].product_name + " has been updated from " + resDB[i].stock_quantity + " to " + newQ );
+                            console.log("The new Inventory for " + resDB[i].product_name + " has been updated from " + resDB[i].stock_quantity + " to " + newQ);
                         }
                     );
                 })
-            })        
+            })
     });
-    
+
 };
 
 function addNewProduct() {
-    console.log("Entro por Agregar nuevo PRODUCTO");
+    inquirer
+        .prompt([
+            {
+                name: "item",
+                type: "input",
+                message: "Insert the new Item (Name): "
+            },
+            {
+                name: "dep",
+                type: "input",
+                message: "Insert the Department name: "
+            },
+            {
+                name: "price",
+                type: "input",
+                message: "Insert the Item Price: ",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            {
+                name: "stock",
+                type: "input",
+                message: "Insert the initial Stock: ",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+        ])
+        .then(function (ans) {
+            // connection.query("SELECT * FROM products", function (err, resDB) {
+            // var i = ans.item - 1;
+            // var newQ = parseInt(ans.qty) + parseInt(resDB[i].stock_quantity);
+            // console.log(newQ);
+            connection.query("INSERT INTO products SET ?",
+                [
+                    {
+                        product_name: ans.item,
+                        department_name: ans.dep,
+                        price: ans.price || 0,
+                        stock_quantity: ans.stock || 0
+                    },
+                ],
+                function (error) {
+                    if (error) throw err;
+                    console.log("Add new Product successfully!");
+                    // console.log("The new Inventory for " + resDB[i].product_name + " has been updated from " + resDB[i].stock_quantity + " to " + newQ);
+                }
+            );
+            // })
+        })
 };

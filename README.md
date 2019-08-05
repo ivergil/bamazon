@@ -1,4 +1,6 @@
-# BamazonApp
+# BamazonApp  
+
+## Click [HERE!!!](https://youtu.be/xaTGQ3MX7pw) to watch the BamazonApp's Video
 
 ## bamazonCustomer.js: 
 
@@ -32,5 +34,4 @@ On this first app the user could buy any of the availables products, the app che
 
    Allow the user to add a completely new product to the store. (Add a new "row" to the products table).
    
-   
-[BamazonApp Video](https://youtu.be/xaTGQ3MX7pw)
+   [My Portfolio](https://ivergil.github.io/Responsive-Portfolio/) 

@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var Table = require('cli-table');
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -18,14 +19,22 @@ connection.connect(function (err) {
 });
 
 function initBamazon() {
-    // console.log("connected as id " + connection.threadId + "\n");
+    var table = new Table({
+        head: ["ID", "Product Name", "Price $",]
+        , colWidths: [5, 20, 10]
+    });
+    
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
 
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
+            table.push(
+                [res[i].item_id,res[i].product_name,res[i].price]
+            )
+            // console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
         }
-        console.log("-----------------------------------");
+        // console.log("-----------------------------------");
+        console.log(table.toString());
         buyProducts();
     });
 };

@@ -33,4 +33,4 @@ On this first app the user could buy any of the availables products, the app che
    Allow the user to add a completely new product to the store. (Add a new "row" to the products table).
    
    
-[GitHub](http://github.com)
+[BamazonApp Video](https://youtu.be/xaTGQ3MX7pw)
